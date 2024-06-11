@@ -1,21 +1,12 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
-#include "qlocaldevice.h"
+
 
 int main(int argc, char *argv[])
 {
-    qputenv("QT_IM_MODULE", QByteArray("qtvirtualkeyboard"));
-
-    //register our form processor class as singleton as we dont want to create memory overheads
-      QScopedPointer<QLocalDevice> singletonprocessor(new QLocalDevice);
-
-      qmlRegisterSingletonInstance("com.company.localdevice", 1, 0, "LocalDevice", singletonprocessor.get()); //register our singleton
-
-      //register the data model which will be used to hold/display the rewards to the UI
-      //qmlRegisterType<RewardsModel>("Rewards",1,0,"RewardsModel");
-
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-
+#endif
     QGuiApplication app(argc, argv);
 
     QQmlApplicationEngine engine;
